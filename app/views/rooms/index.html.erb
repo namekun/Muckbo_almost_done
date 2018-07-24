@@ -125,32 +125,36 @@
 	
 	function room_created(data){
 		$('.room_list').prepend(`	
-		<div class="style3" style= "font-family:Binggrae">
+	<div class="style3" style= "font-family:Binggrae">
+					<div= "row">
 						<div class="col-sx-12">
 							<div class="imagebox style2">
 								<div class="container ">
+									<div class="box-header">
+									</div><!-- /.box-header -->
 									<div class ="row">
-									  <div class="check${data.id}"
+									  <div class="check${data.id}">
 										<div>
-											<a href ="/rooms/${data.id}" ><font size="5">${data.room_title}</font></a>
+											<a href ="/rooms/${data.id}"><font size="4"><div class="text-overflow">[${data..food_type}] ${data.room_title} </div></font></a>
 											<span style="float:right;font-family:Binggrae"><font size="5"><span class="current${data.id}"> 1 </span> / ${data.max_count}</font></span>
 										</div>
 										
 										<div style ="font-family:Binggrae">
-											<span style="color:black" class ="col"><font style="font-family:Binggrae" size="4">${data.start_time_hour} : ${data.start_time_min} 에 보자!</font></span>
-											<div style="float:right;"><span><font size="5">${data.food_type}</font></span></div>
+											<span style="color:black" class ="col"><font style="font-family:Binggrae" size="4">${data.start_time_hour}:${data.start_time_min} 에 보자!</font></span>
+											<!--<div style="float:right;"><font size="5"><1%= room.food_type %></font></div>-->
 										</div>
 									
-										 <!--<div class="Hashtag" style="font-family:Binggrae">
-										 	<span>
-										 	<%# @room.tags.each do |tag| %>
-										 		<%#= link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
-										 	<%# end %></span>
-										 </div>-->
+										<div class="Hashtag" style="font-family:Binggrae">
+											<span>
+											<%# room.tags.each do |tag| %>
+												<%#= link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
+											<%# end %></span>
+										</div>
 									</div><!-- /.box-content -->
 								</div><!-- /.box-imagebox -->
 							</div><!-- /.imagebox style2 -->
 						</div><!-- /.col-sm-12 -->
+					</div>
 			</div>
 		`);
 	}
