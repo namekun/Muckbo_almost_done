@@ -74,15 +74,15 @@
 									<div class="box-header">
 									</div><!-- /.box-header -->
 									<div class ="row">
-									  <div class="check<%=room.id%>"
+									  <div class="check<%=room.id%>">
 										<div>
-											<a href ="/rooms/<%=room.id%>" ><font size="5"><%= room.room_title %></font></a>
+											<a href ="/rooms/<%=room.id%>"><font size="4"  class="text-overflow"><div class="text-overflow">[<%=room.food_type%>] <%= room.room_title %></div></font></a>
 											<span style="float:right;font-family:Binggrae"><font size="5"><span class="current<%= room.id %>"><%=room.admissions_count%></span> / <%=room.max_count%></font></span>
 										</div>
 										
 										<div style ="font-family:Binggrae">
 											<span style="color:black" class ="col"><font style="font-family:Binggrae" size="4"><%= room.start_time_hour%>:<%= room.start_time_min %>에 보자!</font></span>
-											<div style="float:right;"><span><font size="5"><%= room.food_type %></font></span></div>
+											<!--<div style="float:right;"><font size="5"><1%= room.food_type %></font></div>-->
 										</div>
 									
 										<div class="Hashtag" style="font-family:Binggrae">
@@ -106,7 +106,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="btn-more">
-								<a href="/quickmatch" title="">빠른 매칭</a>
+								<a href="/quickmatch" title=""><font style="font-family:Binggrae">빠른 매칭</font></a>
 							</div>
 						</div>
 					</div><!-- /.row -->

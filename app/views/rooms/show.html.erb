@@ -31,28 +31,28 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8">
-						<div class="title-left">
-							<div class="box-title"><span><%=@room.room_type %></span></div>
+						<div class="title-left" style="font-family:Binggrae">
+							<div class="box-title" style="font-family:Binggrae"><span><%=@room.room_type %></span></div>
 							<br>
 							<br>
 							<br>
-							<div class="box-title">
-								<div><h2><%= @room.room_title %></h2></div>
+							<div class="box-title" style="font-family:Binggrae">
+								<div class="text-overflow"><font size="5"><strong><%= @room.room_title %></strong></font></div>
 							</div><!-- /.box-title -->
 							<br>
-							<ul class="box-address">
+							<ul class="box-address" style="font-family:Binggrae">
 								<li><span class="ti-check-box"></span> <font size="4"><%= @room.food_type%></font></li>
 								<li><i> 밥먹는 시간 : <%= @room.start_time_hour%>시 <%= @room.start_time_min %>분 </i> </li>
 							</ul><!-- /.box-address -->
 						</div><!-- /.title-left -->
 					</div><!-- /.col-md-8 -->
 					<div class="col-md-4">
-						<div class="title-right">
-							<div class="btn-more match">
+						<div class="title-right" style="font-family:Binggrae">
+							<div class="btn-more match" style="font-family:Binggrae">
 								<%= link_to 'Ready', ready_room_path(@room), method: 'post', remote: true %>
 							</div>
 								<div class="btn-more">
-									<div class="chat_link">
+									<div class="chat_link" style="font-family:Binggrae">
 										<% if @room.admissions.where(ready_state: true).size == @room.max_count %>
 										   <% if @room.master_id.eql?(current_user.email) %>
 										           <%= link_to 'Start', open_chat_room_path(@room), method: 'post', remote: true %>
@@ -71,8 +71,8 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8">
-						<div class="text-box">
-							<h3>현재 참여 인원</h3>
+						<div class="text-box" style="font-family:Binggrae">
+							<h3 style="font-family:Binggrae">현재 참여 인원</h3>
 							<table>
 							  <thead>
 							   <tr>
@@ -81,7 +81,7 @@
 							   </tr>
 							  </thead>
 							
-							  <tbody class="room_user_list">
+							  <tbody class="room_user_list" style="font-family:Binggrae">
 							   <% @room.users.reverse.each do |user| %>
 							     <tr class="user-<%=user.id %>">
 							       <td colspan="8" style="padding-right: 10px;"><strong><%= user.nickname %></strong></td>
@@ -93,13 +93,13 @@
 						</div>
 						<br/>
 						<div class="text-box">
-							<h3>HashTag</h3>
+							<h3 style="font-family:Binggrae">HashTag</h3>
 							<div class="text-desc">
 								<i><%= @room.hashtag %></i>
 							</div>
 						</div>
 					</div><!-- /.col-md-8 -->
-					<div class="col-md-4">
+					<div class="col-md-4" style="font-family:Binggrae">
 						<p><strong>Max count: <%= @room.max_count %></strong></p>
 						<% if @room.admissions_count == @room.max_count %>
 							<p><strong>인원이 모두 찼습니다. Ready버튼을 눌러주세요.</strong></p>
@@ -111,7 +111,7 @@
 		
 	<div class="row">	
 		<div class= "btn-more">
-			<div class="col-6">
+			<div class="col-6" style="font-family:Binggrae">
 				<%=link_to '방나가기', exit_room_path(@room), method: 'delete', remote: true, data: {confirm: "이 방을 나가시겠습니까?"} %> 
 			</div>
 		</div>
@@ -120,6 +120,12 @@
 
 	
 <script>
+
+  history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+    
   $(document).on('ready', function(){
          
       function user_exit(data){
