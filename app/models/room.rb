@@ -14,7 +14,7 @@ class Room < ApplicationRecord
     
  def create_room_notification
     # 방만들었을때 index에서 방리스트에 append 해주는 트리거
-    Pusher.trigger('room','create',self.as_json)
+    Pusher.trigger('room','create',self.as_json({tags: self.tags}))
  end
 
  def user_admit_room(user)

@@ -146,9 +146,9 @@
 									
 										<div class="Hashtag" style="font-family:Binggrae">
 											<span>
-											<%# room.tags.each do |tag| %>
-												<%#= link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
-											<%# end %></span>
+											${data.tags}.each do |tag|
+												link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
+											end</span>
 										</div>
 									</div><!-- /.box-content -->
 								</div><!-- /.box-imagebox -->
