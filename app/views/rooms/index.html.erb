@@ -135,7 +135,7 @@
 									<div class ="row">
 									  <div class="check${data.id}">
 										<div>
-											<a href ="/rooms/${data.id}"><font size="4"><div class="text-overflow">[${data..food_type}] ${data.room_title} </div></font></a>
+											<a href ="/rooms/${data.id}"><font size="4"><div class="text-overflow">[${data.food_type}] ${data.room_title} </div></font></a>
 											<span style="float:right;font-family:Binggrae"><font size="5"><span class="current${data.id}"> 1 </span> / ${data.max_count}</font></span>
 										</div>
 										
@@ -146,9 +146,9 @@
 									
 										<div class="Hashtag" style="font-family:Binggrae">
 											<span>
-											${data.tags}.each do |tag|
-												link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
-											end</span>
+											<%# room.tags.each do |tag| %>
+												<%#= link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
+											<%# end %></span>
 										</div>
 									</div><!-- /.box-content -->
 								</div><!-- /.box-imagebox -->
