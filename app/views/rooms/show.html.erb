@@ -76,16 +76,16 @@
 							<table>
 							  <thead>
 							   <tr>
-							     <th colspan="8" style="padding-right: 10px;" >참여한 사람</th>
-							     <th colspan="8">레디 상태</th>
+							     <th colspan="8" style="padding-right: 10px;"><strong>참여한 사람</strong></th>
+							     <th colspan="8"><strong>레디 상태</strong></th>
 							   </tr>
 							  </thead>
 							
 							  <tbody class="room_user_list">
 							   <% @room.users.reverse.each do |user| %>
 							     <tr class="user-<%=user.id %>">
-							       <td colspan="8" style="padding-right: 10px;"><%= user.email %></td>
-							       <td colspan="8"><span class="current<%=@room.id %>"><%= user.admissions.where(room_id: @room.id)[0].ready_state %></span></td>
+							       <td colspan="8" style="padding-right: 10px;"><strong><%= user.nickname %></strong></td>
+							       <td colspan="8"><span class="current<%=@room.id %>"><strong><%= user.admissions.where(room_id: @room.id)[0].ready_state %></strong></span></td>
 							     </tr>
 							   <% end %>
 							  </tbody>
@@ -100,7 +100,7 @@
 						</div>
 					</div><!-- /.col-md-8 -->
 					<div class="col-md-4">
-						<p> <strong>Max count:</strong> <%= @room.max_count %> </p>
+						<p><strong>Max count: <%= @room.max_count %></strong></p>
 						<% if @room.admissions_count == @room.max_count %>
 							<p><strong>인원이 모두 찼습니다. Ready버튼을 눌러주세요.</strong></p>
 						<% end %>
