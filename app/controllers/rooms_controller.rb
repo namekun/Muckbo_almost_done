@@ -156,26 +156,26 @@ class RoomsController < ApplicationController
   end
  
   def hashtags
-    tag = Tag.find_by(name: params[:name])
+    tag = Tag.find_by(name: params[:name], room_state: false)
     @rooms = tag.rooms
     @tag =tag.name
   end
 
   def search
     if params[:hashsearch] and params[:room_type] and params[:food_type]
-      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(room_type: params[:room_type], food_type: params[:food_type]).to_a 
+      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(room_type: params[:room_type], food_type: params[:food_type], room_state: false).to_a 
     elsif params[:food_type] and params[:room_type]
-      @rooms = Room.where(food_type: params[:food_type], room_type: params[:room_type]).to_a
+      @rooms = Room.where(food_type: params[:food_type], room_type: params[:room_type], room_state: false).to_a
     elsif params[:hashsearch] and params[:room_type]
-      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(room_type: params[:room_type]).to_a 
+      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(room_type: params[:room_type], room_state: false).to_a 
     elsif params[:hashsearch] and params[:food_type]
-      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(food_type: params[:food_type]).to_a 
+      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(food_type: params[:food_type], room_state: false).to_a 
     elsif params[:hashsearch]
       @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").to_a
     elsif params[:food_type]
-      @rooms = Room.where(food_type: params[:food_type]).to_a
+      @rooms = Room.where(food_type: params[:food_type], room_state: false).to_a
     elsif params[:room_type]
-      @rooms =  Room.where(room_type: params[:room_type]).to_a
+      @rooms =  Room.where(room_type: params[:room_type], room_state: false).to_a
     end
   end
   
