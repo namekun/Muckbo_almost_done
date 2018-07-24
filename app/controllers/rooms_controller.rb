@@ -156,8 +156,8 @@ class RoomsController < ApplicationController
   end
  
   def hashtags
-    tag = Tag.find_by(name: params[:name], room_state: false)
-    @rooms = tag.rooms
+    tag = Tag.find_by(name: params[:name])
+    @rooms = tag.rooms.where(room_state: false)
     @tag =tag.name
   end
 
