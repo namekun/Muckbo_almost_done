@@ -152,7 +152,7 @@ class RoomsController < ApplicationController
 
    Pusher.trigger("room_#{@room.id}", 'chat_start', {})
   
-   RoomDestroyJob.set(wait: 1.hour).perform_later(@room.id) # 한시간 뒤에 방을 폭파하는 코드.
+   RoomDestroyJob.set(wait: 59.minutes).perform_later(@room.id) # 한시간 뒤에 방을 폭파하는 코드.
   end
  
   def hashtags
