@@ -1,4 +1,4 @@
-  	<head>
+ 	<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,16 +24,7 @@
 									 <ul class="menu" style="font-family:Nanum Gothic" >
 									 	<li>
 									 		<a href="/" title="" >Room List</a>
-<!--									 		<ul class="submenu">
-									 			<li>
-									 				<a href="updateProfile.html" title="">프로필 수정</a>
-									 			</li>
-									 			<li>
-									 				<a href="updatePW.html" title="">비밀번호 변경</a>
-									 			</li>
-									 		
-									 		</ul>
--->									 	</li>
+								 		</li>
 										<li>
 									 		<a href="/quickmatch" title="">Quick Match</a>
 									 	</li>
@@ -41,31 +32,14 @@
 									 		<a href="/report" title="">report</a>
 									 	</li>
 									 	<li>
-									 	<!--	<1% if !user_signed_in? %>-->
-									 	<!--		<a href="/users/sign_in" title="">Log In</a>								 		-->
-									 	<!--	<1% else %>-->
-											<!--	<a href="/sign_out" title="">Log out</a>								 		-->
-											<!--<1% end %>-->
-										      <% if user_signed_in?%>
+										     <% if user_signed_in?%>
 								                <%= link_to  "log out",'/users/sign_out', method: "delete"%>
 								             <%else%>
 								               <%= link_to  "log in",'/users/sign_in', method: "get"%>
-								             <%end%>	
-											
+								             <%end%>
 									 	</li>
 									 </ul>
 								</nav><!-- /.mainnav -->
-								<!--<div class="show-search">-->
-								<!--	<button><span class="ti-search"></span></button>-->
-								<!--	<div class="submenu top-search search-header">-->
-					   <!--                 <form role="search" method="get" class="search-form" action="#">-->
-								<!--			<label>-->
-								<!--				<input type="search" class="search-field" placeholder="Search …" value="" name="search">-->
-								<!--			</label>-->
-								<!--			<button class="search-submit-form" title="Search now"><i class="fa fa-search" aria-hidden="true"></i></button>-->
-								<!--		</form>                -->
-								<!--	</div>-->
-								<!--</div> /.show-search -->
 								<div class="btn-menu">
 		                            <span></span>
 		                        </div><!-- //mobile menu button -->
