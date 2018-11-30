@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag "chat" %>
 <%= javascript_include_tag "chat" %>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
 
@@ -14,8 +15,10 @@
           <% @room.chats.each do |chat| %>
           <% unless chat.user_id == current_user.id %>
             <div class="message-data">
-              <span class="message-data-name" style="margin-left: -40;"><%= chat.user.nickname%></span>
+              <span class="message-data-name" style="margin-left: -40;">
+                <%= chat.user.nickname%></span>
             </div>
+            <!-- 삳대-->
             <div class="message my-message" style="width: 100%; padding-left: 20px;">
               <%= chat.message %>
             </div>
@@ -35,9 +38,9 @@
           </div> <!-- end chat-history -->
       <div class="chat-message navbar-fixed-bottom">
         <form action="/rooms/<%=@room.id%>/chat">
-          <!--<textarea name="message" id="message" placeholder ="Type your message" color="black" rows="2"></textarea>     -->
-          <%= text_area_tag 'message', nil, placeholder:'메세지를 입력하세요'%>
-        <button class="submit" id="submit">Send</button>
+          <textarea name="message" id="message" placeholder ='메세지를 입력하세요' style = "width:100%"></textarea>
+          <!--<1%= text_area_tag 'message', nil, placeholder:'메세지를 입력하세요'%>-->
+        <input type = "submit" id="submit" value ="보내기"></input>
       </div> <!-- end chat-message -->
       </div>
       </div>
@@ -58,9 +61,10 @@
   $('#message').val('');
  
   $('#message').keypress(function(e) { 
-     if(e.which == 13) { 
-        $(this).blur();
-        $('#submit').focus().click();
+     if(e.which == 13) { // enter를 쳤을때 
+        //$(this).blur();
+        $('#submit').click();
+        return false;
      }
   });
   
@@ -68,7 +72,7 @@
   function user_chat(data){
       $('.chat-history').append(`<div class="message-data align-right">
           <span class="message-data-name" >${data.nickname}</span></div>
-          <div class="message other-message" style="width: 100%; padding-right: 20px;">${data.message}</div>`)
+        <div class="message other-message" style="width: 000%; padding-right: 20px;">${data.message}</div>`)
   }
  
    function another_user_chat(data){
