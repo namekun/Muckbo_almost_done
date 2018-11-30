@@ -3,7 +3,7 @@ class RoomsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
 
   layout "chat", only: [:chat, :open_chat]
-  
+  layout "show", only: [:show]  
 
   # GET /rooms
   # GET /rooms.json
