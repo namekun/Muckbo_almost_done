@@ -127,11 +127,13 @@ class RoomsController < ApplicationController
     end
   end
   
+  ###### 11.30 수정. room 모델에서 만든 함수를 적용
   def is_user_ready
    if current_user.is_ready?(@room) # 현재 레디상태라면
+     @room.user_ready(current_user) # 현재유저의 레디상태 바꿔주기
      render js: "console.log('이미 레디상태'); location.reload();"
    else  # 현재 레디상태가 아니라면
-     @room.user_ready(current_user) # 현재유저의 레디상태 바꿔주기
+     @room.user_ready_false(current_user) # 현재유저의 레디상태 바꿔주기
      render js: "console.log('레디상태로 바뀌었습니다.'); location.reload();"
      # 현재 레디한 방 외에 모든방의 레디해제
      current_user.admissions.where.not(room_id: @room.id).destroy_all

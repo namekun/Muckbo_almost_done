@@ -54,7 +54,7 @@
 				<div class="row">
 					<div class="col-md-12">			
 						<div class="filter-result style2" style="font-family:Binggrae">
-							<div class="result">
+							<div class="result<%= %>">
 								<span style="font-family:Binggrae"><font size="4">현재 <%= @rooms.count %>개의 방이 있습니다!</font></span> <!--검색된 방의 갯수로 바꾸기--> 
 							</div>
 								<span style="float:right;font-family:Binggrae"><font size="4"><%=link_to '방만들기', new_room_path %></font></span>
@@ -66,21 +66,19 @@
 		
 		<section class="room_list" style="margin-left: 15px;margin-right: 15px;">
 					<% @rooms.reverse.each do |room| %>
-				<div class="style3" style= "font-family:Binggrae">
+			<div class="style3<%=room.id%>" style= "font-family:Binggrae">
 					<div= "row">
 						<div class="col-sx-12">
 							<div class="imagebox style2">
-								<div class="container ">
-									<div class="box-header">
-									</div><!-- /.box-header -->
-									<div class ="row">
+								<div class="container<%=room.id%>">
+									<div class ="row<%=room.id%>">
 									  <div class="check<%=room.id%>">
 										<div>
 											<a href ="/rooms/<%=room.id%>"><font size="4"><div class="text-overflow">[<%=room.room_type%>/<%=room.food_type%>] <%= room.room_title %></div></font></a>
 											<span style="float:right;font-family:Binggrae"><font size="5"><span class="current<%= room.id %>"><%=room.admissions_count%></span> / <%=room.max_count%></font></span>
 										</div>
 										
-										<div style ="font-family:Binggrae">
+										<div style ="font-family:Binggrae<%=room.id%>">
 											<span style="color:black" class ="col"><font style="font-family:Binggrae" size="4"><%= room.start_time_hour%>:<%= room.start_time_min %>에 보자!</font></span>
 											<!--<div style="float:right;"><font size="5"><1%= room.food_type %></font></div>-->
 										</div>
@@ -125,11 +123,11 @@
 	
 	function room_created(data){
 		$('.room_list').prepend(`	
-	<div class="style3" style= "font-family:Binggrae">
+			<div class="style3${data.id}" style= "font-family:Binggrae">
 					<div= "row">
 						<div class="col-sx-12">
 							<div class="imagebox style2">
-								<div class="container ">
+							<div class="container${data.id}">
 									<div class="box-header">
 									</div><!-- /.box-header -->
 									<div class ="row">
@@ -139,17 +137,18 @@
 											<span style="float:right;font-family:Binggrae"><font size="5"><span class="current${data.id}"> 1 </span> / ${data.max_count}</font></span>
 										</div>
 										
-										<div style ="font-family:Binggrae">
+									<div style ="font-family:Binggrae${data.id}">
 											<span style="color:black" class ="col"><font style="font-family:Binggrae" size="4">${data.start_time_hour}:${data.start_time_min} 에 보자!</font></span>
 											<!--<div style="float:right;"><font size="5"><1%= room.food_type %></font></div>-->
 										</div>
 									
 										<div class="Hashtag" style="font-family:Binggrae">
 											<span>
-											<rooms.tags>
-											<%# room.tags.each do |tag| %>
-												<%#= link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
-											<%# end %></span>
+											<!% room.tags.each do |tag| %>
+											 	<!%= link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
+											<!% end %>
+											${data.hashtag}
+											</span>
 										</div>
 									</div><!-- /.box-content -->
 								</div><!-- /.box-imagebox -->
@@ -158,6 +157,15 @@
 					</div>
 			</div>
 		`);
+	}
+	
+	function room_delete(data){
+		$(`.style3${data.id}`).empty();
+		$(`.container${data.id}`).empty();
+		$(`.check${data.id}`).empty();
+		$(`.row${data.id}`).empty();
+		$(`.font-family:Binggrae${data.id}`).empty();
+	    console.log("삭제")
 	}
 	
 	function user_exit(data){
@@ -189,5 +197,10 @@
 	   user_exit(data)
 	 });
 	
+	
+	 channel.bind('delete', function(data){
+		console.log("방삭제 들어감");
+		room_delete(data)
+     });	
 	
 </script>
