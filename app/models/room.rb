@@ -23,22 +23,25 @@ class Room < ApplicationRecord
     Admission.create(user_id: user.id, room_id: self.id)
  end
  
- def user_exit_room(user)
+  def user_exit_room(user)
    @thisR = Room.where(id: self.id)[0]
    if (@thisR.admissions.count == 1)
      Admission.where(user_id: user.id, room_id: self.id)[0].destroy
      p "방 폭파조건"
      Room.where(id: self.id)[0].destroy
+     Pusher.trigger('room','delete',self.as_json) ## 추가 1130
    else #방장여부 판별
      if (@thisR.master_id == user.email)
        p "if 문 들어옴"
        p @someone = User.find(@thisR.admissions.sample.user_id).email
        @thisR.update(master_id: @someone)
      end
-     p @thisR.admissions.count
-     p "방 사람들 수"
+
      p @thisR.master_id
      Admission.where(user_id: user.id, room_id: self.id)[0].destroy
+     p @thisR.admissions.count
+     p "방 사람들 수"   
+   
    end
  end
 
@@ -47,10 +50,15 @@ class Room < ApplicationRecord
    self.room_state
  end
  
+ #####11.30 수정. user_ready_false 함수를 하나 추가함
  def user_ready(user)
-   Admission.where(user_id: user.id, room_id: self.id).update(ready_state: true)
+    Admission.where(user_id: user.id, room_id: self.id).update(ready_state: false)
  end
-    
+ 
+  def user_ready_false(user)
+    Admission.where(user_id: user.id, room_id: self.id).update(ready_state: true)
+ end   
+
 
 # 해시 태그 
 
