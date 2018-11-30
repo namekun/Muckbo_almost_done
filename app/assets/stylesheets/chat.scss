@@ -83,8 +83,7 @@ body {
     }
     
     .message-data-name {
-      font-size: 15px;
-      left: -50px;
+      font-size: 1em;
     } 
     
     .message {      
@@ -169,6 +168,19 @@ body {
       }
     }
   }
+}
+
+input[type=submit] {
+  background-color:$blue;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  font-size:16px;
+  font-weight: bold;
+  line-height: 1.4;
+  padding: 10px;
+  width: 72px;
 }
 
 .online, .offline, .me {

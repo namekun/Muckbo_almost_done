@@ -3,6 +3,7 @@ class RoomsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
 
   layout "chat", only: [:chat, :open_chat]
+  layout "show", only: [:show]  
 
   # GET /rooms
   # GET /rooms.json
@@ -155,12 +156,15 @@ class RoomsController < ApplicationController
    RoomDestroyJob.set(wait: 59.minutes).perform_later(@room.id) # 한시간 뒤에 방을 폭파하는 코드.
   end
  
+ # 해쉬태그
+ 
   def hashtags
     tag = Tag.find_by(name: params[:name])
     @rooms = tag.rooms.where(room_state: false)
     @tag =tag.name
   end
-
+  
+  # 복합검색
   def search
     if params[:hashsearch] and params[:room_type] and params[:food_type]
       @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(room_type: params[:room_type], food_type: params[:food_type], room_state: false).to_a 
@@ -186,20 +190,34 @@ class RoomsController < ApplicationController
     # 해당하는 방이 없을 때, alert를 띄우던지 아니면 해당하는 방이 없다는 화면으로 보내주던지...
     if !Room.where(room_type: "먹방").to_a[0].nil?
       match_num = 0
+      roomList = Hash.new
       if Room.where(room_type: "먹방").size > 1
         while match_num < Room.where(room_type: "먹방").to_a.length
           if Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].admissions_count < Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].max_count
-            @rooms = Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[match_num].id 
-            # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬, 그후 id만 추출
-            redirect_to "/rooms/#{@rooms}"
-          break
+            # 임시방편으로 만든 코드
+            #@rooms = Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].id 
+            # 룸타입이 먹방인 방에서,어떻게 하면 가장 인원수가 얼마 남지 않은 방을 찾아낼 수 있을까?
+            cntval = Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].max_count - Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].admissions_count
+            idnum = Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].id
+            roomList.store(cntval, idnum)
+            #redirect_to "/rooms/#{@rooms}"
+            match_num += 1
+            puts match_num
           else
             match_num += 1
+            puts "여기는 else로 더해졌습니다 #{match_num}"
           end
         end
+        
+        roomList.each do |key, value|
+            puts "#{key}:#{value}"
+        end
+        
+        @rooms = roomList.sort_by{|a, b| a}.to_h.values[0]
+        redirect_to "/rooms/#{@rooms}"
       else
         if Room.where(room_type: "먹방")[0].admissions_count == Room.where(room_type:"먹방")[0].max_count
-          flash[:danger] = "매치할 방이 없습니다..방을 직접 만들거나 잠시후 다시 시도해주세요!"
+          flash[:danger] = "매치할 방이 없습니다! 방을 직접 만들거나 잠시후 다시 시도해주세요!"
           redirect_to quickmatch_path
         else
           @rooms = Room.where(room_type: "먹방")[0].id 
@@ -234,13 +252,15 @@ class RoomsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def room_params
       @room = params.require(:room).permit(:room_title, :max_count, :room_state, :admissions_count, :meet_time_end, :start_time_hour, :start_time_min, :food_type, :room_type, :hashtag)
-    # {room_title: params[:room][:room]
     end
     
     # def user_params
     #   #email: params[:email], password: params[:password], nickname: params[:nickname], major: params[:major], another_major: params[:another_major], sex: params[:sex]
     #   @user = params.require(:user).permit(:email, :password, :nickname, :major, :another_major. :sex)
     # end
+    
+    
+    
 end
 
 
