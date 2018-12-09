@@ -2,20 +2,43 @@ class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy, :user_exit_room, :is_user_ready, :chat, :open_chat]
   before_action :authenticate_user!, except: [:index]
 
-  layout "chat", only: [:chat, :open_chat]
-  layout "show", only: [:show]  
+  layout "layouts/chat", only: [:chat, :open_chat]
+  layout "layouts/show", only: [:show]
+  
+  # 12.09-채팅방 레이아웃 덮어쓰기
+  layout :set_layout
+  
+  def set_layout
+    case action_name.to_sym
+      when :chat
+        'chat'
+      when :open_chat
+        'chat'
+      when :show
+        'show'
+      else
+        'application'
+    end
+  end
 
   # GET /rooms
   # GET /rooms.json
   def index
     @rooms = Room.where(room_state: false).all
+    @rooms_all = Room.all
     @rooms.where(admissions_count: 0).destroy_all
+    if user_signed_in?#12.7 오늘 수정한 내용 (경로 자동 설정)
+      @rooms_all.each do |room|
+        if current_user.joined_room?(room)
+          redirect_to "/rooms/#{room.id}"
+        end
+      end
+    end #요기까지
   end
 
   # GET /rooms/1
   # GET /rooms/1.json
   def show
-   
     respond_to do |format|
       if @room.chat_started?
        format.html { render 'chat', layout: false}
@@ -49,9 +72,7 @@ class RoomsController < ApplicationController
   def create
    @room = Room.new(room_params)
    @room.master_id = current_user.email
-   
-
-   
+  
    respond_to do |format|
       if @room.save
        @room.user_admit_room(current_user) #room.rb
@@ -151,7 +172,7 @@ class RoomsController < ApplicationController
    @room.update(room_state: true)
    @room.admissions.each do |admission|
       UserChatLog.create(room_title: @room.room_title, room_id: @room.id, user_id: admission.user_id, nickname: admission.user.nickname, chat_date: admission.updated_at.to_date )
-   end
+  end
 
    Pusher.trigger("room_#{@room.id}", 'chat_start', {})
   

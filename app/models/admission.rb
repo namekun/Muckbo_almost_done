@@ -32,7 +32,9 @@ class Admission < ApplicationRecord
    Pusher.trigger("room_#{self.room_id}",'ready',self.as_json.merge({email: self.user.email, ready_count: ready_count, max_count: max_count}))
    if max_count == ready_count
      p "max_count == ready_count 코드  실행되고있당. "
+     if self.user_id == thisR.master_id #12.7 여기 고침(레디할 때 모든 유저에게 start뜨는거 해결하는 코드)
      Pusher.trigger("room_#{self.room_id}",'start',self.as_json.merge({email: self.user.email, ready_count: ready_count, max_count: max_count}))
+     end
    end
  end 
 end

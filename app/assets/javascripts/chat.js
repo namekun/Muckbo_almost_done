@@ -53,7 +53,7 @@
     addMessage: function() {
       this.messageToSend = this.$textarea.val()
       this.render();
-      location.reload();
+     // location.reload();
 
     },
     
@@ -62,7 +62,7 @@
         if (event.keyCode === 13) {
           this.addMessage();
         }
-        location.reload();       
+        //location.reload();       
     },
     
     scrollToBottom: function() {

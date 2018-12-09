@@ -1,24 +1,24 @@
 <%= stylesheet_link_tag "chat" %>
 <%= javascript_include_tag "chat" %>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<div style="width: 100%">
+<div id = "mydiv" style="width: 100%; height: 100%">
   
-<div class="chat">
-<div class="container-fluid">
-    <div class="chat">      
-      <div class="chat-history">
-        <ul>
+  <div class="chat">
+    <div class="container-fluid">
+      <div class="chat">      
+        <div class="chat-history" style="overflow:auto;" >
+          <ul style="padding-left: 0px;">
           <% @room.chats.each do |chat| %>
           <% unless chat.user_id == current_user.id %>
             <div class="message-data">
               <span class="message-data-name" style="margin-left: -40;">
                 <%= chat.user.nickname%></span>
             </div>
-            <!-- 삳대-->
+            <!-- 상대-->
             <div class="message my-message" style="width: 100%; padding-left: 20px;">
               <%= chat.message %>
             </div>
@@ -36,51 +36,61 @@
           <% end %>
             
           </div> <!-- end chat-history -->
+          
       <div class="chat-message navbar-fixed-bottom">
         <form action="/rooms/<%=@room.id%>/chat">
           <textarea name="message" id="message" placeholder ='메세지를 입력하세요' style = "width:100%"></textarea>
-          <!--<1%= text_area_tag 'message', nil, placeholder:'메세지를 입력하세요'%>-->
         <input type = "submit" id="submit" value ="보내기"></input>
       </div> <!-- end chat-message -->
+     
+     
       </div>
       </div>
       </div>
       </div>
       
-<%= javascript_include_tag "chat" %>
-
+      <%= javascript_include_tag "chat" %>
 
 <script>
-
+  
   history.pushState(null, null, location.href);
     window.onpopstate = function () {
         history.go(1);
     };
- 
-    
+
   $('#message').val('');
  
   $('#message').keypress(function(e) { 
-     if(e.which == 13) { // enter를 쳤을때 
-        //$(this).blur();
+    if(e.which == 13) { // enter를 쳤을때 
+        // $(this).blur();
         $('#submit').click();
         return false;
-     }
+        // 입력했을 때, 채팅방을 가장 밑으로 끌어내리는 코드
+        $('chat')[0].scrollHeight;
+    }
   });
   
-  
+    
+  function downScorll(){
+    $('.chat')[0].scrollHeight;
+  }
+
   function user_chat(data){
-      $('.chat-history').append(`<div class="message-data align-right">
+      $('.chat-history').append(`
+        <div class="message-data align-right">
           <span class="message-data-name" >${data.nickname}</span></div>
-        <div class="message other-message" style="width: 000%; padding-right: 20px;">${data.message}</div>`)
+        <div class="message other-message" style="text-align:right; width: 100%; padding-right: 20px;">${data.message}</div>`)
   }
  
    function another_user_chat(data){
-      $('.chat-history').append(`<div class="message-data">
+      $('.chat-history').append(`
+      <div class="message-data">
         <span class="message-data-name">${data.nickname}</span>
-        </div>
-        <div class="message my-message" style="width: 100%; padding-left: 20px; left:-10;">${data.message}</div>`)
+      </div>
+      <div class="message my-message" style="width: 100%; padding-left: 20px;">${data.message}
+      </div>`)
   }
+
   
    var pusher = new Pusher("<%= ENV["Pusher_key"]%>", {
     cluster: "<%= ENV["Pusher_cluster"] %>",
@@ -95,14 +105,13 @@
 
     if (current_user == data.user_id){
       user_chat(data);
+      downScorll();
       console.log("채팅중입니다.")
     }
     else{
       another_user_chat(data);
+      downScorll();
       console.log("채팅중입니다.")
-
     }
   });
-  
-
 </script>
