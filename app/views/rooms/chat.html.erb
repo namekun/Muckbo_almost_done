@@ -10,7 +10,7 @@
   <div class="chat">
     <div class="container-fluid">
       <div class="chat">      
-        <div class="chat-history" style="overflow:auto;" >
+        <div class="chat-history" >
           <ul style="padding-left: 0px;">
           <% @room.chats.each do |chat| %>
           <% unless chat.user_id == current_user.id %>
@@ -69,11 +69,6 @@
         $('chat')[0].scrollHeight;
     }
   });
-  
-    
-  function downScorll(){
-    $('.chat')[0].scrollHeight;
-  }
 
   function user_chat(data){
       $('.chat-history').append(`
@@ -105,12 +100,10 @@
 
     if (current_user == data.user_id){
       user_chat(data);
-      downScorll();
       console.log("채팅중입니다.")
     }
     else{
       another_user_chat(data);
-      downScorll();
       console.log("채팅중입니다.")
     }
   });
