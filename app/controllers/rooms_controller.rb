@@ -5,7 +5,7 @@ class RoomsController < ApplicationController
   layout "layouts/chat", only: [:chat, :open_chat]
   layout "layouts/show", only: [:show]
   
-  # 12.09-채팅방 레이아웃 덮어쓰기
+  # 12.09 채팅방 레이아웃 덮어쓰기
   layout :set_layout
   
   def set_layout
