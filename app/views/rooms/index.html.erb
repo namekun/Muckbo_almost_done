@@ -66,11 +66,13 @@
 		
 		<section class="room_list" style="margin-left: 15px;margin-right: 15px;">
 					<% @rooms.reverse.each do |room| %>
-			<div class="style3<%=room.id%>" style= "font-family:Binggrae">
+			<div class="style3<%=room.id%> container" style= "font-family:Binggrae">
 					<div= "row">
 						<div class="col-sx-12">
 							<div class="imagebox style2">
 								<div class="container<%=room.id%>">
+									<div class ="box-header">
+									</div>
 									<div class ="row<%=room.id%>">
 									  <div class="check<%=room.id%>">
 										<div>
@@ -123,7 +125,7 @@
 	
 	function room_created(data){
 		$('.room_list').prepend(`	
-			<div class="style3${data.id}" style= "font-family:Binggrae">
+			<div class="container style3${data.id}" style= "font-family:Binggrae">
 					<div= "row">
 						<div class="col-sx-12">
 							<div class="imagebox style2">

@@ -43,7 +43,7 @@ class Room < ApplicationRecord
      p "방 사람들 수"   
    
    end
- end
+  end
 
  
  def chat_started?
@@ -55,7 +55,7 @@ class Room < ApplicationRecord
     Admission.where(user_id: user.id, room_id: self.id).update(ready_state: false)
  end
  
-  def user_ready_false(user)
+ def user_ready_false(user)
     Admission.where(user_id: user.id, room_id: self.id).update(ready_state: true)
  end   
 
@@ -63,7 +63,7 @@ class Room < ApplicationRecord
 # 해시 태그 
 
  def update_hashtag_from_body
-   room = Room.find_by(id: self.id)
+     room = Room.find_by(id: self.id)
      hashtags = self.hashtag.split('#')
      transaction do
         hashtags[1..-1].map do |hashtag| # hashtags에서 #(0)을 제외한 1~끝까지(-1) 모두 한글자 한글자 마다 반복문을 돌린다.
