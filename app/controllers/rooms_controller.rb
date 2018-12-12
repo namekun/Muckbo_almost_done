@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  skip_before_filter :verify_authenticity_token
   before_action :set_room, only: [:show, :edit, :update, :destroy, :user_exit_room, :is_user_ready, :chat, :open_chat]
   before_action :authenticate_user!, except: [:index]
 
@@ -165,7 +166,11 @@ class RoomsController < ApplicationController
  
   def chat
     @room_id = @room.id
-    @room.chats.create(user_id: current_user.id, message: params[:message])
+    if params[:message].nil?
+  
+    else
+      @room.chats.create(user_id: current_user.id, message: params[:message])
+    end
   end
  
   def open_chat
