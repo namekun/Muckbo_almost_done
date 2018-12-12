@@ -5,21 +5,19 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<div id = "mydiv" style="width: 100%; height: 100%">
-  
-  <div class="chat">
-    <div class="container-fluid">
-      <div class="chat">      
-        <div class="chat-history" >
+<div id = "mydiv" style="width: 100%; height:100%;">
+  <div class="chat" id = "chat">
+    <div class="container-fluid" id = "container">
+        <div id="chat-history" class="chat-history" style="overflow: bottom;">
           <ul style="padding-left: 0px;">
           <% @room.chats.each do |chat| %>
           <% unless chat.user_id == current_user.id %>
             <div class="message-data">
-              <span class="message-data-name" style="margin-left: -40;">
+              <span class="message-data-name">
                 <%= chat.user.nickname%></span>
             </div>
             <!-- 상대-->
-            <div class="message my-message" style="width: 100%; padding-left: 20px;">
+            <div class="message my-message" style="width: 100%; padding-left: 20px;left: 0px;">
               <%= chat.message %>
             </div>
           
@@ -47,12 +45,11 @@
       </div>
       </div>
       </div>
-      </div>
       
       <%= javascript_include_tag "chat" %>
 
 <script>
-  
+
   history.pushState(null, null, location.href);
     window.onpopstate = function () {
         history.go(1);
@@ -74,7 +71,8 @@
       $('.chat-history').append(`
         <div class="message-data align-right">
           <span class="message-data-name" >${data.nickname}</span></div>
-        <div class="message other-message" style="text-align:right; width: 100%; padding-right: 20px;">${data.message}</div>`)
+        <div class="message other-message" style="text-align:right; width: 100%; padding-right: 20px;">${data.message}</div>`);
+      
   }
  
    function another_user_chat(data){
@@ -86,7 +84,6 @@
       </div>`)
   }
 
-  
    var pusher = new Pusher("<%= ENV["Pusher_key"]%>", {
     cluster: "<%= ENV["Pusher_cluster"] %>",
     encrypted: true
@@ -95,16 +92,14 @@
   var channel = pusher.subscribe("room_<%=@room.id%>");
   var current_user = <%= current_user.id %>
   //var nickname = <1%= current_user.nickname %>
+  
  
   channel.bind('chat', function(data){
-
     if (current_user == data.user_id){
       user_chat(data);
-      console.log("채팅중입니다.")
     }
     else{
       another_user_chat(data);
-      console.log("채팅중입니다.")
     }
   });
 </script> 
