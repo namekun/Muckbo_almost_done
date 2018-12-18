@@ -17,7 +17,7 @@ class RoomsController < ApplicationController
         'chat'
       when :show
         'show'
-      else
+      else   
         'application'
     end
   end
