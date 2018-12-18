@@ -2,4 +2,4 @@
 
 ### [링크](muckbo.xyz)
 
-### [배포하는 법 정리된 블로그](https://hcn1519.github.io/articles/2016-02/rails_passenger_nginx)
+### [배포하는 법 정리된 블로그](https://ideveloper2.tistory.com/55)
